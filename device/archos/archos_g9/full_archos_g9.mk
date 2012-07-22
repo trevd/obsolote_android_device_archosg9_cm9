@@ -25,16 +25,21 @@ else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
+# Init Files
 PRODUCT_COPY_FILES := \
-	$(LOCAL_KERNEL):kernel \
-	$(DEVICE_PREBUILT)/etc/media_profiles.xml:system/etc/media_profiles.xml \
-	frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-	frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-	frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml
+       	$(LOCAL_KERNEL):kernel \
+       	$(DEVICE_PREBUILT)/root/init.rc:root/init.dongle.rc \
+       	$(DEVICE_PREBUILT)/root/init.rc:root/init.rc \
+        
+
+# Modem Kernel Modules
+PRODUCT_COPY_FILES += \
+        $(DEVICE_PREBUILT)/root/lib/modules/usb_wwan.ko:root/lib/modules/usb_wwan.ko \
+        $(DEVICE_PREBUILT)/root/lib/modules/option.ko:root/lib/modules/option.ko \
+        $(DEVICE_PREBUILT)/root/lib/modules/hso.ko:root/lib/modules/hso.ko 
 
 # EGL Proprietary Files
 PRODUCT_COPY_FILES += \
-	$(DEVICE_PREBUILT)/bin/pvrsrvinit:system/bin/pvrsrvinit \
 	$(DEVICE_PREBUILT)/lib/egl/libEGL_POWERVR_SGX540_120.so:system/lib/egl/libEGL_POWERVR_SGX540_120.so \
 	$(DEVICE_PREBUILT)/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so:system/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
 	$(DEVICE_PREBUILT)/lib/egl/libGLESv2_POWERVR_SGX540_120.so:system/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
@@ -47,8 +52,10 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_PREBUILT)/lib/libPVRScopeServices.so:system/lib/libPVRScopeServices.so \
 	$(DEVICE_PREBUILT)/lib/libsrv_init.so:system/lib/libsrv_init.so \
 	$(DEVICE_PREBUILT)/lib/libsrv_um.so:system/lib/libsrv_um.so \
-	$(DEVICE_PREBUILT)/lib/libusc.so:system/lib/libusc.so
-
+	$(DEVICE_PREBUILT)/lib/libusc.so:system/lib/libusc.so \
+        $(DEVICE_PREBUILT)/bin/pvrsrvinit:system/bin/pvrsrvinit \
+        
+        
 # Vold Mounting
 PRODUCT_COPY_FILES += \
 	$(DEVICE_PREBUILT)/etc/fstab:system/etc/fstab \
@@ -78,8 +85,37 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_PREBUILT)/etc/init/init.archos.rc:system/etc/init/init.archos.rc \
 	$(DEVICE_PREBUILT)/etc/init/init.rc:system/etc/init/init.rc \
 	$(DEVICE_PREBUILT)/etc/init/ueventd.archos.rc:system/etc/init/ueventd.archos.rc
+	
+# pppd scripts
+PRODUCT_COPY_FILES += \
+	$(DEVICE_PREBUILT)/etc/ppp/init_pppd_gprs:system/etc/ppp/init_pppd_gprs \
+	$(DEVICE_PREBUILT)/etc/ppp/init_pppd_datakey:system/etc/ppp/init_pppd_datakey \
+	$(DEVICE_PREBUILT)/etc/ppp/ip-up-datakey:system/etc/ppp/ip-up-datakey \
+	$(DEVICE_PREBUILT)/etc/ppp/ip-up-gprs:system/etc/ppp/ip-up-gprs \
+	$(DEVICE_PREBUILT)/etc/ppp/ip-down-datakey:system/etc/ppp/ip-down-datakey \
+	$(DEVICE_PREBUILT)/etc/ppp/ip-down-gprs:system/etc/ppp/ip-down-gprs \
+	$(DEVICE_PREBUILT)/etc/ppp/peers/datakey:system/etc/ppp/peers/datakey \
+	$(DEVICE_PREBUILT)/etc/ppp/peers/gprs:system/etc/ppp/peers/gprs \
+	$(DEVICE_PREBUILT)/etc/ppp/write_secrets:system/etc/ppp/peers/write_secrets 
+	
+# chatscripts scripts
+PRODUCT_COPY_FILES += \
+        $(DEVICE_PREBUILT)/etc/chatscripts/gprs_start:system/etc/chatscripts/gprs_start \
+        $(DEVICE_PREBUILT)/etc/chatscripts/gprs_stop:system/etc/chatscripts/gprs_stop \
+        $(DEVICE_PREBUILT)/etc/chatscripts/datakey_start:system/etc/chatscripts/datakey_start \
+        $(DEVICE_PREBUILT)/etc/chatscripts/datakey_stop:system/etc/chatscripts/datakey_stop 
+
+# xbin
+PRODUCT_COPY_FILES += \
+        $(DEVICE_PREBUILT)/lib/hotplugd:system/bin/hotplugd.so \
+        $(DEVICE_PREBUILT)/bin/sdcard:system/bin/sdcard \
+        $(DEVICE_PREBUILT)/xbin/chat:system/xbin/chat \
+        $(DEVICE_PREBUILT)/lib/libhuaweigeneric-ril.so:system/lib/libhauweigeneric-ril.so \
+        $(DEVICE_PREBUILT)/lib/libtcl-ril.so:system/lib/libtcl-ril.so                 \
+        $(DEVICE_PREBUILT)/lib/libusb.so:system/lib/libusb.so                       
 
 PRODUCT_COPY_FILES += \
+    $(DEVICE_PREBUILT)/etc/media_profiles.xml:system/etc/media_profiles.xml \
     frameworks/base/data/etc/tablet_core_hardware.xml:/system/etc/permissions/tablet_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:/system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:/system/etc/permissions/android.hardware.sensor.light.xml \
@@ -93,11 +129,12 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.camera.xml:/system/etc/permissions/android.hardware.camera.xml \
     frameworks/base/data/etc/android.hardware.camera.front.xml:/system/etc/permissions/android.hardware.camera.front.xml \
     frameworks/base/data/etc/android.hardware.camera.autofocus.xml:/system/etc/permissions/android.hardware.camera.autofocus.xml \
-    frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:/system/etc/permissions/android.hardware.camera.flash-autofocus.xml
+    frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:/system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+ 
 
 PRODUCT_PACKAGES := \
         Superuser \
-        su \
+        su 
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -129,10 +166,6 @@ PRODUCT_CHARACTERISTICS := tablet
 DEVICE_PACKAGE_OVERLAYS := \
         device/archos/archos_g9/overlay
 
-#HWC Hal
-#PRODUCT_PACKAGES += \
-#        hwcomposer.omap4
-
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_PACKAGES := \
@@ -142,10 +175,15 @@ PRODUCT_PACKAGES := \
         librs_jni \
 	com.android.future.usb.accessory
 
+## It all gets a bit experiemental here. See if we can enable voice and Sms/Mms
 PRODUCT_PACKAGES += \
         Apollo \
+        BasicSmsReceiver \
         Camera \
         CMWallpapers \
+        CellBroadcastReceiver \
+        Music \
+        MusicFx \
         DeskClock \
         Development \
         Galaxy4 \
@@ -154,7 +192,11 @@ PRODUCT_PACKAGES += \
         Term \
         ThemeChooser \
         ThemeManager \
-        Trebuchet
+        Trebuchet \
+        SpareParts \
+        Phone \
+        Mms
+        
 
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
@@ -168,26 +210,12 @@ PRODUCT_PACKAGES += \
 # Filesystem management tools
 PRODUCT_PACKAGES += \
 	make_ext4fs \
-	setup_fs
+	setup_fs \
 
 # BlueZ test tools
 PRODUCT_PACKAGES += \
 	hciconfig \
 	hcitool
-
-#PRODUCT_PACKAGES += send_bug
-#PRODUCT_COPY_FILES += \
-#	system/extras/bugmailer/bugmailer.sh:system/bin/bugmailer.sh \
-#	system/extras/bugmailer/send_bug:system/bin/send_bug
-
-# Inherit from those products. Most specific first.
-#$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
-#$(call inherit-product, vendor/archos/archos_g9/archos_g9-vendor-blobs.mk)
-#$(call inherit-product, vendor/archos/archos_g9/archos_g9-vendor.mk)
-#$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
-#$(call inherit-product-if-exists, vendor/ti/proprietary/omap4xxx/ti-omap4-vendor.mk)
-#$(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
-#$(call inherit-product-if-exists, vendor/cm/config/common_full_tablet_wifionly.mk)
 
 PRODUCT_NAME := cm_archos_g9
 PRODUCT_DEVICE := archos_g9
