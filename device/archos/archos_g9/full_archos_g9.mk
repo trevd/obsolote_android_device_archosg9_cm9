@@ -107,7 +107,7 @@ PRODUCT_COPY_FILES += \
 
 # xbin
 PRODUCT_COPY_FILES += \
-        $(DEVICE_PREBUILT)/lib/hotplugd:system/bin/hotplugd \
+        $(DEVICE_PREBUILT)/bin/hotplugd:system/bin/hotplugd \
         $(DEVICE_PREBUILT)/bin/sdcard:system/bin/sdcard \
         $(DEVICE_PREBUILT)/xbin/chat:system/xbin/chat \
         $(DEVICE_PREBUILT)/lib/libhuaweigeneric-ril.so:system/lib/libhauweigeneric-ril.so \
