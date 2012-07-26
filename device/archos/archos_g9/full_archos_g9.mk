@@ -28,7 +28,7 @@ endif
 # Init Files
 PRODUCT_COPY_FILES := \
        	$(LOCAL_KERNEL):kernel \
-       	$(DEVICE_PREBUILT)/root/init.rc:root/init.dongle.rc \
+       	$(DEVICE_PREBUILT)/root/init.dongle.rc:root/init.dongle.rc \
        	$(DEVICE_PREBUILT)/root/init.rc:root/init.rc \
         
 
