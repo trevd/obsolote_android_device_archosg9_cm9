@@ -96,7 +96,7 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_PREBUILT)/etc/ppp/ip-down-gprs:system/etc/ppp/ip-down-gprs \
 	$(DEVICE_PREBUILT)/etc/ppp/peers/datakey:system/etc/ppp/peers/datakey \
 	$(DEVICE_PREBUILT)/etc/ppp/peers/gprs:system/etc/ppp/peers/gprs \
-	$(DEVICE_PREBUILT)/etc/ppp/write_secrets:system/etc/ppp/peers/write_secrets 
+	$(DEVICE_PREBUILT)/etc/ppp/write_secrets:system/etc/ppp/write_secrets 
 	
 # chatscripts scripts
 PRODUCT_COPY_FILES += \
